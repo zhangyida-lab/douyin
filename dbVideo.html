@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Streaming</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+    <h1>Video Streaming</h1>
+    <div id="videoList">
+        <!-- 动态视频列表会显示在这里 -->
+    </div>
+
+    <script>
+        // 获取随机视频列表
+        fetch('http://localhost:5000/videos')
+            .then(response => response.json())
+            .then(videos => {
+                const videoListContainer = document.getElementById('videoList');
+                videos.forEach(video => {
+                    const videoElement = document.createElement('div');
+                    videoElement.classList.add('video-item');
+                    videoElement.innerHTML = `
+                        <h3>${video.filename}</h3>
+                        <video id="videoPlayer" width="600" controls>
+                            <source src="${video.hls_url}" type="application/x-mpegURL">
+                        </video>
+                    `;
+                    videoListContainer.appendChild(videoElement);
+                });
+            })
+            .catch(error => console.error('Error fetching videos:', error));
+    </script>
+</body>
+</html>
