@@ -178,3 +178,8 @@ cython_debug/
 *.mkv
 
 *.ts
+
+
+*.html
+
+*.swift
